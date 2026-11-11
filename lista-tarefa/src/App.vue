@@ -9,7 +9,7 @@ const { state: snack } = useSnackbar();
 const route = useRoute();
 const router = useRouter();
 const authStore = useAuthStore();
-const drawer = ref(true);
+const drawer = ref(false);
 const menu = computed(() => {
   return route.path !== '/' && route.path !== '/cadastro'
 })
