@@ -23,11 +23,17 @@ export const useAuthStore = defineStore("auth", ()=>{
         }
     }
 
+    const register = async (userData) => {
+        const response = await api.post("/register", userData);
+        return response.data;
+    }
+
     const logout = () => {
         user.value.user = null;
         user.value.token = null;
         localStorage.removeItem("token");
+        localStorage.removeItem("idusuario");
     }
 
-    return { user, isAuthenticated, login, logout }
+    return { user, isAuthenticated, login, register, logout }
 });
