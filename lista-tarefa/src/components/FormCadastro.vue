@@ -1,6 +1,6 @@
 <script setup>
 import { ref } from 'vue';
-import { useAuthStore } from '@/stores/auth';
+import { useUsuarioStore } from '@/stores/usuario';
 import router from '@/router';
 import { useSnackbar } from '@/composables/useSnackbar';
 
@@ -8,7 +8,7 @@ const snack = useSnackbar();
 const loading = ref(false);
 const mostrar = ref(false);
 
-const authStore = useAuthStore();
+const storeUsuario = useUsuarioStore();
 
 const item = ref({
     name: '',
@@ -29,16 +29,12 @@ async function cadastrar() {
 
     loading.value = true;
     try {
-        await authStore.register(item.value);
+        await storeUsuario.insertUsuario(item.value);
         snack.sucesso('Conta criada! Faça login para continuar.');
         router.push('/');
     } catch (error) {
-        console.log(error);
-        if (error.response && error.response.data && error.response.data.message) {
-            snack.erro(error.response.data.message);
-        } else {
-            snack.erro('Erro ao realizar o cadastro de usuário.');
-        }
+        const erros = error.response?.data?.errors;
+        snack.erro(erros ? Object.values(erros)[0][0] : 'Erro ao realizar o cadastro de usuário.');
     } finally {
         loading.value = false;
     }
