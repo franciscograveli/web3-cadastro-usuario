@@ -1,9 +1,10 @@
 <script setup>
     import { ref } from 'vue';
     import { useAuthStore } from '@/stores/auth';
-    import router from '@/router';
+    import { useRouter } from 'vue-router';
     import { useSnackbar } from '@/composables/useSnackbar';
 
+    const router = useRouter();
     const snack = useSnackbar();
 
     const authStore = useAuthStore();
